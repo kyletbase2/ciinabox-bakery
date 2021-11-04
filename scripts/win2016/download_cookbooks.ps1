@@ -20,9 +20,6 @@ try
   }
 
   try {
-    Write-Output "INFO: Sleepy time"
-    Start-Sleep -s 60
-
     Write-Output "INFO: Downloading chef bundle from s3 location: $SourceBucket/$ChefPath/$CookbookVersion/chef-bundle.tar.gz"
     Read-S3Object -Region $BucketRegion -BucketName $SourceBucket -Key /$ChefPath/$CookbookVersion/chef-bundle.tar.gz -File $GzipPath
   } catch {

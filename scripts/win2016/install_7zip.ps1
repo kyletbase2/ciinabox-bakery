@@ -5,6 +5,7 @@ try
 {
   # Set start time
   $start_time = Get-Date
+  Set-PSDebug -Trace 1
 
   # Set download URLs
   $7zip_download_url = "https://s3-ap-southeast-2.amazonaws.com/base2.packages.ap-southeast-2.public/windows/7zip/7za465.zip"
