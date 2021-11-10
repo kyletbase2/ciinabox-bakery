@@ -14,7 +14,7 @@ try
   $CookbookVersion = $ENV:CB_BUILD_NO
   $ChefPath        = $ENV:CHEF_PATH
 
-  Start-Sleep -s 25
+  Start-Sleep -s 60
 
   if([string]::IsNullOrEmpty($SourceBucket) -And [string]::IsNullOrEmpty($CookbookVersion)) {
     Write-Output "INFO: No Cookbooks to download...this instance must have existing cookbooks"
