@@ -62,7 +62,6 @@
     },
     {
       "pause_before": "60s",
-      "max_retries": 2,
       "type": "chef-client",
       "guest_os_type": "windows",
       "install_command":"powershell.exe -Command \". { iwr -useb https://omnitruck.chef.io/install.ps1 } | iex; install -v {{user `chef_version`}}\"",
