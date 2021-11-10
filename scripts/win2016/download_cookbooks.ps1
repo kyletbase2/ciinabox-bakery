@@ -3,6 +3,52 @@ Set-ExecutionPolicy Bypass -force
 Write-Output "Start at: $(Get-Date)"
 try
 {
+
+# Install 7zip
+  # Set start time
+  $start_time = Get-Date
+  Set-PSDebug -Trace 1
+
+  # Set download URLs
+  $7zip_download_url = "https://s3-ap-southeast-2.amazonaws.com/base2.packages.ap-southeast-2.public/windows/7zip/7za465.zip"
+
+  # Create Software folder
+  $software_folder = "$env:SystemDrive\software"
+  mkdir -force $software_folder
+
+  # Create temp folder
+  $temp_folder  = "$env:userprofile\temp\install"
+  if (test-path("$temp_folder")) {ri -r -force "$temp_folder"}
+  mkdir -force $temp_folder
+  cd $temp_folder
+
+  # Download 7zip
+  Write-Output "Downloading 7zip from $7zip_download_url"
+  $wc = new-object System.Net.WebClient
+  $wc.DownloadFile($7zip_download_url,"$temp_folder\" + $7zip_download_url.Split("/")[-1])
+
+  # Install 7-zip (just unzipping file to a 7zip folder)
+  Write-Output "Installing 7zip in $software_folder\7zip"
+  if (test-path("$software_folder\7zip")) {ri -r -force "$software_folder\7zip"}
+  mkdir "$software_folder\7zip"
+  $shell_app=new-object -com shell.application
+  $zip_file = $shell_app.namespace("$temp_folder\7za465.zip")
+  $destination = $shell_app.namespace("$software_folder\7zip")
+  $destination.Copyhere($zip_file.items())
+
+  # Add 7zip to path
+  Write-Output "Adding 7zip to the PATH"
+  [Environment]::SetEnvironmentVariable("PATH","$env:path;$software_folder\7zip","MACHINE")
+  $env:path = "$env:path;$software_folder\7zip"
+
+  # Remove temp folder
+  Write-Output "Cleaning up"
+  cd c:\
+  ri -r -force "$temp_folder"
+  Write-Output "Time taken: $((Get-Date).Subtract($start_time))"
+
+
+
   $start_time      = Get-Date
   $GzipPath        = "C:\base2\cookbooks.tar.gz"
   $Base2Path       = "C:\base2"
@@ -14,7 +60,7 @@ try
   $CookbookVersion = $ENV:CB_BUILD_NO
   $ChefPath        = $ENV:CHEF_PATH
 
-  Start-Sleep -s 60
+# Download cookbooks
 
   if([string]::IsNullOrEmpty($SourceBucket) -And [string]::IsNullOrEmpty($CookbookVersion)) {
     Write-Output "INFO: No Cookbooks to download...this instance must have existing cookbooks"

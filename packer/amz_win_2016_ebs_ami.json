@@ -50,7 +50,6 @@
     {
       "type": "powershell",
       "scripts": [
-        "scripts/win2016/install_7zip.ps1",
         "scripts/win2016/download_cookbooks.ps1",
         "scripts/win2016/amazon_setup.ps1"
       ],
