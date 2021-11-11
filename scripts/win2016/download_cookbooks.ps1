@@ -24,8 +24,9 @@ try
 
   # Download 7zip
   Write-Output "Downloading 7zip from $7zip_download_url"
+  $7zip_output = "$temp_folder\" + $7zip_download_url.Split("/")[-1]
   $wc = new-object System.Net.WebClient
-  $wc.DownloadFile($7zip_download_url,"$temp_folder\" + $7zip_download_url.Split("/")[-1])
+  $wc.DownloadFile($7zip_download_url,$7zip_output)
 
   # Install 7-zip (just unzipping file to a 7zip folder)
   Write-Output "Installing 7zip in $software_folder\7zip"
