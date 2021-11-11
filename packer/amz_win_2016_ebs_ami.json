@@ -50,8 +50,7 @@
     {
       "type": "powershell",
       "scripts": [
-        "scripts/win2016/download_cookbooks.ps1",
-        "scripts/win2016/amazon_setup.ps1"
+        "scripts/win2016/download_cookbooks.ps1"
       ],
       "environment_vars": [
         "SOURCE_BUCKET={{user `source_bucket`}}",
@@ -61,7 +60,7 @@
       ]
     },
     {
-      "pause_before": "60s",
+      "pause_before": "90s",
       "type": "chef-client",
       "guest_os_type": "windows",
       "install_command":"powershell.exe -Command \". { iwr -useb https://omnitruck.chef.io/install.ps1 } | iex; install -v {{user `chef_version`}}\"",

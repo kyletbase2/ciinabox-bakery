@@ -3,6 +3,20 @@ Set-ExecutionPolicy Bypass -force
 Write-Output "Start at: $(Get-Date)"
 try
 {
+# Amazon setup
+
+  Write-Output "Set up the EC2-Launch file for Windows 2016 initialisation"
+  $start_time = Get-Date
+  $EC2SettingsFile="C:\ProgramData\Amazon\EC2-Windows\Launch\Config\LaunchConfig.json"
+  $json = Get-Content $EC2SettingsFile | ConvertFrom-Json
+  $json.setComputerName = "true"
+  $json.setWallpaper = "true"
+  $json.addDnsSuffixList = "true"
+  $json.extendBootVolumeSize = "true"
+  $json.adminPasswordType = "Random"
+  $json | ConvertTo-Json  | set-content $EC2SettingsFile
+  Write-Output "Time taken: $((Get-Date).Subtract($start_time))"
+
 
 # Install 7zip
   # Set start time
