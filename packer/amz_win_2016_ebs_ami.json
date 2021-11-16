@@ -49,6 +49,8 @@
     },
     {
       "type": "powershell",
+      "expect_disconnect": true,
+      "start_retry_timeout": "5m",
       "scripts": [
         "scripts/win2016/download_cookbooks.ps1"
       ],

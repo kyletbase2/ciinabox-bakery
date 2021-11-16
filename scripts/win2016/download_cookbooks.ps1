@@ -21,7 +21,7 @@ try
 # Install 7zip
   # Set start time
   $start_time = Get-Date
-  Set-PSDebug -Trace 2
+  Set-PSDebug -Trace 1
 
   # Set download URLs
   $7zip_download_url = "https://s3-ap-southeast-2.amazonaws.com/base2.packages.ap-southeast-2.public/windows/7zip/7za465.zip"
@@ -70,17 +70,12 @@ try
   $TarPath         = "C:\base2\cookbooks.tar"
   $Destination     = "C:\chef\"
   $CookbookDir     = "C:\chef\cookbooks"
-  $SourceBucket    = $ENV:SOURCE_BUCKET
-  $BucketRegion    = $ENV:BUCKET_REGION
-  $CookbookVersion = $ENV:CB_BUILD_NO
-  $ChefPath        = $ENV:CHEF_PATH
+  $SourceBucket    = "source.tools.tallie.com"
+  $BucketRegion    = "us-west-2"
+  $CookbookVersion = "develop"
+  $ChefPath        = "chef/tallie"
 
 # Download cookbooks
-
-  if([string]::IsNullOrEmpty($SourceBucket) -And [string]::IsNullOrEmpty($CookbookVersion)) {
-    Write-Output "INFO: No Cookbooks to download...this instance must have existing cookbooks"
-    exit 0
-  }
 
   try {
     Write-Output "INFO: Downloading chef bundle from s3 location: $SourceBucket/$ChefPath/$CookbookVersion/chef-bundle.tar.gz"
@@ -110,6 +105,5 @@ catch
   Write-Output "ERROR: Caught an exception:"
   Write-Output "ERROR: Exception Type: $($_.Exception.GetType().FullName)"
   Write-Output "ERROR: Exception Message: $($_.Exception.Message)"
-  exit 1
 }
 exit 0
